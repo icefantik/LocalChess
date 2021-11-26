@@ -13,10 +13,22 @@ class MainActivity : AppCompatActivity() {
         timerTask()
     }
     private fun timerTask() {
-        val timer = object : CountDownTimer(20000, 1000) {
+        val timer = object : CountDownTimer(300000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                var diff = millisUntilFinished
                 val textTimer : TextView = findViewById(R.id.viewTimer)
-                textTimer.setText((millisUntilFinished / 1000).toString())
+                val secondsInMilli : Long = 1000
+                val minutesInMilli = secondsInMilli * 60
+                val hoursInMilli = minutesInMilli * 60
+                val daysInMilli = hoursInMilli * 24
+
+                diff %= daysInMilli
+                diff %= hoursInMilli
+                val elepsedMinutes = diff / minutesInMilli
+                diff %= minutesInMilli
+                val elepsedSecond = diff / secondsInMilli
+                val text = "${elepsedMinutes}:${elepsedSecond}"
+                textTimer.setText(text)
             }
             override fun onFinish() {
                 timerFinish()
